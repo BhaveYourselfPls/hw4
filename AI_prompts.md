@@ -613,3 +613,51 @@ is what surfaced the history-replay bug.
 **Follow-ups:** None.
 
 ---
+
+## Problem 13 - Restructure into hw4/ and push to GitHub
+
+**Prompt:**
+> Problem 13
+> Put all code in a folder called hw4 and push it to a public GitHub repo. Do not put the .env, .db or product images in the repo. Use .gitignore.
+>
+> Expensed file layout: *(tree diagram showing hw4/ with AI_prompts.md, requirements.txt, .env.example, .gitignore, README.md, frontend/, backend/{main,agent,models,tools}.py, backend/prompts/prompt.md, output/{harness,design,usability}.md, app_check.html, app_check_images/, audit_trail.json; plus a separate data/ tree marked "Local-only data pack (exclude from git)")*
+>
+> Readme.md should explain how to run front and back end
+
+**Repository:** https://github.com/BhaveYourselfPls/campus-customs-hw4 (public)
+
+**What was done:**
+- Moved everything into `hw4/` to match the requested layout; `data/` lives inside it
+  but is git-ignored, since the backend resolves the database relative to its own location
+- `.gitignore` excluding secrets (`.env`, keys), the local-only data pack (`data/`, `*.db`),
+  `.venv/`, `node_modules/`, `dist/`, caches and editor files
+- `.env.example` documenting `PORTKEY_API_KEY`, `PORTKEY_BASE_URL`, `MODEL_NAME` and
+  `CAMPUS_CUSTOMS_SECRET`
+- `requirements.txt` with the five direct dependencies, validated by deleting the venv and
+  reinstalling from scratch
+- `README.md` covering prerequisites, getting the data pack, adding the API key, running
+  the backend (`cd backend && uvicorn main:app --reload --port 8000`), running the front end
+  (`cd frontend && npm install && npm run dev`), a five-step walkthrough, the project layout,
+  a documentation index, the API table, how the agent stays grounded, and troubleshooting
+
+**Problems hit during the move:**
+- `frontend/` would not move: `node_modules` and `dist` are reparse points under OneDrive
+  and refused both `mv` and PowerShell `Move-Item`. Moved the source files only, deleted
+  the leftovers, and reinstalled - verified with a clean `npm install` and build.
+- Moving `.venv` broke it: virtualenv console scripts hardcode an absolute path, so
+  `uvicorn` exited immediately. Recreated the venv from `requirements.txt`, which also
+  proved the requirements file is complete.
+
+**Verification before and after pushing:**
+- Backend from the new layout: `/api/health` -> 102 products, agent_ready true;
+  search, images (HTTP 200) and `/api/audit/verify` (chain intact) all working
+- Front end: homepage renders, 27 hoodies load, product images resolve
+- Secret scan over tracked content for `gho_`, `sk-...` and assigned `PORTKEY_API_KEY` - nothing
+- Exact-match check against what GitHub actually received: no `.env`, no `data/`, no `*.db`,
+  no `node_modules`, no `.venv`, no `dist` - 56 files, and the only `.jpg` files are the six
+  app_check screenshots, not product photography
+- Removed four unused Vite scaffold assets that had been carried along
+
+**Follow-ups:** None.
+
+---
