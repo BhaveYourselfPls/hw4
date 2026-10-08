@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Campus Customs — Live Site Check</title>
+<style>
+  :root{
+    --black:#0b0b0d; --ink:#16181d; --muted:#5c6370; --line:#e3e6ec;
+    --paper:#fff; --shell:#f6f7f9; --blue:#00356b; --blue-bright:#286dc0;
+    --blue-tint:#eef3fa; --ok:#1d6b43;
+    --display:'Playfair Display','Iowan Old Style',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--shell); color:var(--ink);
+    font:16px/1.65 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px 80px}
+
+  header.masthead{background:var(--black);color:#fff;padding:52px 0 44px;margin-bottom:40px}
+  header.masthead .wrap{padding-bottom:0}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#7fb0ea}
+  header.masthead h1{font-family:var(--display);font-size:42px;margin:14px 0 10px;letter-spacing:-.02em}
+  header.masthead p{color:#b9c2d0;margin:0;max-width:66ch}
+  .meta{display:flex;gap:28px;flex-wrap:wrap;margin-top:26px;padding-top:22px;border-top:1px solid #272a31;font-size:13px;color:#8e9bad}
+  .meta b{display:block;color:#fff;font-weight:600;margin-bottom:2px}
+
+  .toc{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px 26px;margin-bottom:40px}
+  .toc h2{font-family:var(--display);font-size:18px;margin:0 0 12px}
+  .toc ol{margin:0;padding-left:20px}
+  .toc li{margin-bottom:6px}
+  .toc a{color:var(--blue-bright);font-weight:600;text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+
+  section.check{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:30px 32px;margin-bottom:34px}
+  section.check > h2{
+    font-family:var(--display);font-size:27px;margin:0 0 6px;letter-spacing:-.015em;
+    padding-bottom:14px;border-bottom:3px solid var(--blue)
+  }
+  .asked{color:var(--muted);font-size:15px;margin:14px 0 22px}
+  .asked b{color:var(--ink)}
+
+  h3{font-family:var(--display);font-size:19px;margin:30px 0 8px}
+  figure{margin:0 0 10px}
+  figure img{
+    display:block;width:100%;height:auto;border:1px solid var(--line);
+    border-radius:8px;background:var(--shell)
+  }
+  figcaption{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.6}
+  figcaption b{color:var(--ink)}
+
+  .proves{
+    background:var(--blue-tint);border:1px solid #cfe0f3;border-left:4px solid var(--blue);
+    border-radius:6px;padding:13px 16px;margin:14px 0 0;font-size:14.5px;line-height:1.6
+  }
+  .proves strong{color:var(--blue)}
+
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:16px 0}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  td code{font-size:13px}
+  tr.match td:last-child{color:var(--ok);font-weight:600}
+
+  pre{
+    background:var(--black);color:#dfe4ec;padding:16px 18px;border-radius:8px;
+    font-size:13px;line-height:1.6;overflow-x:auto;margin:14px 0
+  }
+  pre .c{color:#8e9bad}
+  code{background:var(--shell);border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:13.5px}
+
+  .pill{
+    display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:999px;background:var(--ok);color:#fff;vertical-align:middle;margin-left:8px
+  }
+  .note{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:26px}
+  footer{color:var(--muted);font-size:13px;text-align:center;padding-top:10px}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <span class="eyebrow">Campus Customs · MGT 409 HW 4</span>
+    <h1>Live Site Check</h1>
+    <p>
+      Three features exercised against the running application — React + Vite front end on
+      <code style="background:#1b1d23;border-color:#2b2e36;color:#dfe4ec">localhost:5173</code>,
+      FastAPI back end on
+      <code style="background:#1b1d23;border-color:#2b2e36;color:#dfe4ec">localhost:8000</code>.
+      Every screenshot below was taken from the live site during this run, and every number shown
+      is checked against the SQLite database.
+    </p>
+    <div class="meta">
+      <div><b>Date tested</b>7 October 2026</div>
+      <div><b>Backend health</b>status ok · 102 products · agent_ready true</div>
+      <div><b>Model</b>gpt-6-luna via Portkey</div>
+      <div><b>Signed in as</b>Test User (test@campuscustoms.yale.edu)</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>What is checked</h2>
+    <ol>
+      <li><a href="#check1">Chat checking the inventory of a product</a> — the assistant reads live stock</li>
+      <li><a href="#check2">Dynamic search-result cards</a> — a chat question renders product cards</li>
+      <li><a href="#check3">Usability feature from Problem 9</a> — live search and removable filters</li>
+      <li><a href="#appendix">Appendix</a> — the storefront, and bugs this check caught</li>
+    </ol>
+  </nav>
+
+  <!-- ============================================================ CHECK 1 -->
+  <section class="check" id="check1">
+    <h2>Check 1 — The chat checks a product's inventory <span class="pill">Passed</span></h2>
+    <p class="asked">
+      <b>What was tested:</b> standing on the <i>Basic Hoodie Big Yale</i> product page, the shopper
+      asks the assistant <b>&ldquo;How many of these are left in each size?&rdquo;</b> — without naming
+      the product. The reply must come from the <code>inventory</code> table, not from the model.
+    </p>
+
+    <figure>
+      <img src="app_check_images/01-chat-inventory.jpg"
+           alt="The Basic Hoodie Big Yale product page with the chat panel open. The assistant has replied with the quantity available in every size." />
+      <figcaption>
+        <b>Screenshot 1.</b> The assistant answers: &ldquo;Hi Test — the Basic Hoodie Big Yale has
+        <b>15</b> in XS, <b>5</b> in S, <b>5</b> in M, <b>8</b> in L, <b>2</b> in XL, and <b>25</b> in
+        XXL.&rdquo; A product card with the price and a &ldquo;Stock by size&rdquo; note sits beneath it.
+      </figcaption>
+    </figure>
+
+    <div class="proves">
+      <strong>What this proves:</strong> the agent called its <code>check_stock</code> tool and read
+      real per-size quantities out of the database — it resolved the vague word
+      &ldquo;these&rdquo; to the product on screen using page context, and it greeted the signed-in
+      shopper by name without being told who they were.
+    </div>
+
+    <h3>Verified against the database</h3>
+    <p style="font-size:14.5px;color:var(--muted);margin:0 0 4px">
+      The same query, run directly against <code>data/campus_customs.db</code>:
+    </p>
+<pre><span class="c">sqlite&gt;</span> SELECT size, quantity FROM inventory
+         WHERE product_id = 'basic-hoodie-big-yale';</pre>
+
+    <table>
+      <thead>
+        <tr><th>Size</th><th>Database</th><th>Assistant said</th><th>Result</th></tr>
+      </thead>
+      <tbody>
+        <tr class="match"><td>XS</td><td>15</td><td>15</td><td>match</td></tr>
+        <tr class="match"><td>S</td><td>5</td><td>5</td><td>match</td></tr>
+        <tr class="match"><td>M</td><td>5</td><td>5</td><td>match</td></tr>
+        <tr class="match"><td>L</td><td>8</td><td>8</td><td>match</td></tr>
+        <tr class="match"><td>XL</td><td>2</td><td>2</td><td>match</td></tr>
+        <tr class="match"><td>XXL</td><td>25</td><td>25</td><td>match</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:14px;color:var(--muted);margin:0">
+      Six of six exact. Raw output saved at
+      <code>app_check_images/01b-db-proof.txt</code>.
+    </p>
+  </section>
+
+  <!-- ============================================================ CHECK 2 -->
+  <section class="check" id="check2">
+    <h2>Check 2 — Dynamic search-result cards <span class="pill">Passed</span></h2>
+    <p class="asked">
+      <b>What was tested:</b> the shopper asks <b>&ldquo;What quarter-zips do you have?&rdquo;</b>.
+      The agent must search the catalogue and return <i>structured</i> matches that the website
+      renders as product cards — not just a list of names in prose.
+    </p>
+
+    <figure>
+      <img src="app_check_images/02-dynamic-cards.jpg"
+           alt="The Products page showing a highlighted From your chat band with four quarter-zip product cards, alongside the open chat panel listing the same four items." />
+      <figcaption>
+        <b>Screenshot 2.</b> One question produced cards in two places at once: compact rows inside
+        the chat panel, and a highlighted <b>&ldquo;FROM YOUR CHAT&rdquo;</b> band on the Products
+        page headed with the shopper's own question, reading
+        <b>&ldquo;4 matches from the merch assistant.&rdquo;</b>
+      </figcaption>
+    </figure>
+
+    <div class="proves">
+      <strong>What this proves:</strong> the agent returned a structured <code>products</code> array
+      (not just text), and the front end rendered it with the <em>same</em> <code>ProductCard</code>
+      component the catalogue grid uses — identical photo, price, color swatches and click-through to
+      the product page. Each card also carries a match note explaining <em>why</em> it matched
+      (&ldquo;L in stock; $72&rdquo;), which reflects the shopper's saved size.
+    </div>
+
+    <table>
+      <thead><tr><th>Item</th><th>Observed</th></tr></thead>
+      <tbody>
+        <tr><td>Question asked</td><td>&ldquo;What quarter-zips do you have?&rdquo;</td></tr>
+        <tr><td>Cards in the chat panel</td><td>4 — Benjamin Franklin, Berkeley, Branford, School Of Art 1/4 Zip</td></tr>
+        <tr><td>Cards on the Products page</td><td>4, in the &ldquo;From your chat&rdquo; band</td></tr>
+        <tr><td>Price shown</td><td>$72 each — matches <code>catalogue.price</code> for all quarter-zips</td></tr>
+        <tr><td>Full catalogue below</td><td>Still intact: All (102), Quarter-Zips (11), filters working</td></tr>
+        <tr class="match"><td>Click-through</td><td>Each card opens its own product page</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:14px;color:var(--muted);margin:0">
+      Server-side safeguard: every <code>product_id</code> the model returns is looked up again in
+      the catalogue, and the name, price, image and colors on the card come from the database rather
+      than from the model — so an invented product cannot reach the screen.
+    </p>
+  </section>
+
+  <!-- ============================================================ CHECK 3 -->
+  <section class="check" id="check3">
+    <h2>Check 3 — Usability feature from Problem 9 <span class="pill">Passed</span></h2>
+    <p class="asked">
+      <b>Feature:</b> live debounced search with a visible, individually removable filter bar.
+      <b>The problem it fixed:</b> search previously did nothing until the shopper pressed Enter, so
+      typing a term and watching nothing happen made the search look broken. Active filters were also
+      invisible, leaving no explanation for why the grid had shrunk.
+    </p>
+
+    <h3>Before — the full catalogue</h3>
+    <figure>
+      <img src="app_check_images/03a-search-before.jpg"
+           alt="The Products page showing the unfiltered catalogue with 102 products and an empty search box." />
+      <figcaption>
+        <b>Screenshot 3a.</b> Starting state: <b>102 products</b>, empty search box, no filter bar.
+      </figcaption>
+    </figure>
+
+    <h3>After typing &ldquo;hockey&rdquo; — with no Enter key pressed</h3>
+    <figure>
+      <img src="app_check_images/03b-search-live.jpg"
+           alt="The Products page after typing hockey. The count reads 5 products matching hockey, a filter bar has appeared, and five hockey items are shown." />
+      <figcaption>
+        <b>Screenshot 3b.</b> The word was typed one character at a time and <b>Enter was never
+        pressed</b>. The grid narrowed to <b>5 products matching &ldquo;hockey&rdquo;</b>, a
+        <b>FILTERING BY &ldquo;hockey&rdquo; ×</b> bar appeared with a <b>Clear all</b> link, an ×
+        button appeared inside the search box, and the URL updated to
+        <code>?search=hockey</code>.
+      </figcaption>
+    </figure>
+
+    <div class="proves">
+      <strong>What this proves:</strong> results now update as the shopper types (250&nbsp;ms after
+      they pause, so it is one request rather than one per keystroke), and the state of the page is
+      legible — it is obvious what is filtering the grid and how to undo it. Because the URL stays
+      the source of truth, the result is still shareable and the back button still works.
+    </div>
+
+    <h3>Two filters at once, each removable on its own</h3>
+    <figure>
+      <img src="app_check_images/03c-filters-combined.jpg"
+           alt="The Products page with both a Hoodies category filter and a hockey search filter active, showing two matching products." />
+      <figcaption>
+        <b>Screenshot 3c.</b> Adding the <b>Hoodies</b> chip stacks a second filter. The bar reads
+        <b>FILTERING BY Hoodies × &ldquo;hockey&rdquo; × Clear all</b> and the count reads
+        <b>2 products in Hoodies matching &ldquo;hockey&rdquo;</b>. Clicking the
+        &ldquo;hockey&rdquo; pill removes only the search term, leaving
+        <code>?category=Hoodies</code> and 27 products — the category filter survives.
+      </figcaption>
+    </figure>
+
+    <table>
+      <thead><tr><th>Step</th><th>Count</th><th>URL</th></tr></thead>
+      <tbody>
+        <tr><td>Start</td><td>102 products</td><td><code>/products</code></td></tr>
+        <tr><td>Typed &ldquo;hockey&rdquo; (no Enter)</td><td>5 products</td><td><code>?search=hockey</code></td></tr>
+        <tr><td>Added Hoodies chip</td><td>2 products</td><td><code>?search=hockey&amp;category=Hoodies</code></td></tr>
+        <tr class="match"><td>Removed only the search pill</td><td>27 products</td><td><code>?category=Hoodies</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============================================================ APPENDIX -->
+  <section class="check" id="appendix">
+    <h2>Appendix — storefront, and what this check caught</h2>
+
+    <figure>
+      <img src="app_check_images/00-home.jpg"
+           alt="The Campus Customs homepage with a large serif headline, the year 1975 set as a hollow outline, a size preference bar, and a scrolling ribbon." />
+      <figcaption>
+        <b>Screenshot 4.</b> The homepage, signed in as Test User with size <b>L</b> saved. Visible:
+        the &ldquo;Showing availability in your size L&rdquo; strip, the 1975 numeral set as a hollow
+        outline behind the headline, the scrolling vocabulary ribbon, and the countdown to The Game
+        beginning below.
+      </figcaption>
+    </figure>
+
+    <h3>Two real bugs this live check found — both fixed</h3>
+    <table>
+      <thead><tr><th>Bug</th><th>Cause</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>The chat panel had stopped floating in the corner — it was rendering at
+              <code>x:&nbsp;-24, y:&nbsp;1512</code>, far outside the viewport.</td>
+          <td>A rule added during the Problem 10 redesign set
+              <code>position: relative</code> on <code>.chat-panel</code> to lift it above the paper
+              grain, which overrode its <code>position: fixed</code>.</td>
+          <td>Removed the panel and launcher from that rule — they only needed the
+              <code>z-index</code>. Confirmed back at the bottom-right corner.</td>
+        </tr>
+        <tr>
+          <td>Product card notes displayed raw markdown, e.g.
+              <code>**8** in **L**</code>.</td>
+          <td>Bold was rendered inside chat bubbles but not on card notes or the Products page match
+              notes.</td>
+          <td>Extracted the inline renderer to <code>src/markdown.tsx</code> and used it in all three
+              places. Notes now read &ldquo;8 in L&rdquo; with the number in bold.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="note">
+      Both fixes are reflected in the screenshots above. The first bug is the reason Screenshot 1 was
+      retaken — the chat panel was not visible in the first attempt.
+    </p>
+  </section>
+
+  <footer>
+    Campus Customs · Live site check · All screenshots captured from the running application.
+  </footer>
+</div>
+
+</body>
+</html>

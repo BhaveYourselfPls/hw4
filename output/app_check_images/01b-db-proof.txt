@@ -1,0 +1,9 @@
+sqlite> SELECT size, quantity FROM inventory
+         WHERE product_id = 'basic-hoodie-big-yale';
+
+  XS   | 15
+  S    | 5
+  M    | 5
+  L    | 8
+  XL   | 2
+  XXL  | 25

@@ -1,0 +1,13 @@
+# Campus Customs — backend dependencies
+#
+#   python -m venv .venv
+#   .venv/Scripts/pip install -r requirements.txt      # Windows
+#   .venv/bin/pip install -r requirements.txt          # macOS / Linux
+#
+# Only the four direct dependencies are pinned; pip resolves the rest.
+
+fastapi==0.142.4            # web framework
+uvicorn[standard]==0.54.0   # ASGI server (the --reload runner)
+pydantic==2.13.5            # typed models, used everywhere in models.py
+pydantic-ai-slim[openai]==2.54.0  # the agent framework + OpenAI/Portkey client
+python-dotenv==1.2.4        # loads PORTKEY_API_KEY from .env
